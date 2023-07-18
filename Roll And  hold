@@ -1,0 +1,68 @@
+package com.techlabs.piggame;
+import java.util.Random;
+import java.util.Scanner;
+
+public class PigGamePlay {
+	public static int score;
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner scanner = new Scanner(System.in);
+				
+		System.out.println("Let play pig.");
+		int turn =rollOrHold(scanner);
+		System.out.println("You finished in " + turn + " turn!");
+		System.out.println("Game over!");
+
+	}
+	public static int rollOrHold(Scanner scanner)
+	{
+		Random random = new Random();
+		int turn=1, turnWiseScore=0;
+		System.out.println("Turn " + turn);
+		while(score+turnWiseScore<20)
+		{
+			
+			System.out.print("Roll or Hold? r/h : ");
+			char  option=scanner.next().charAt(0);
+			if(option=='r')
+			{
+				int number = 1+random.nextInt(6);
+				//System.out.println("Die :" + number);
+				
+				if(number>1)
+				{
+					turnWiseScore += number;
+					System.out.println("Die :" + number);
+					
+				}
+				else
+				{
+					score=0;
+					turnWiseScore=0;
+					System.out.println("Turn Over. No score");
+					System.out.println();
+					turn++ ;
+					System.out.println("Turn " + turn);
+					
+				}
+			}
+			else
+			{
+				System.out.println("Score for turn:"+ turnWiseScore);
+				score += turnWiseScore;
+				turnWiseScore=0;
+				System.out.println("Total Score :" +score);
+				System.out.println();
+				turn++;
+				System.out.println("Turn " + turn);
+				
+			}
+		}
+		System.out.println("Total Score:"+ (turnWiseScore  + score));
+	
+		return turn;
+		
+	}
+
+}
