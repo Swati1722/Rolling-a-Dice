@@ -1,0 +1,105 @@
+package com.techlabs.piggame;
+
+import java.util.Random;
+import java.util.Scanner;
+
+public class RefactorPigPlayGame {
+		// TODO Auto-generated method stub
+	 public static int score;
+	 public static int turnWiseScore ;
+	 public static int turn = 1;
+
+	    public static void main(String[] args) {
+	        Scanner scanner = new Scanner(System.in);
+
+	        System.out.println("Let's play pig.");
+	        System.out.println("Want to play pig Game:");
+	        String wantToPlay =scanner.next().toLowerCase();;
+	        while (wantToPlay.equals("yes")) {
+	           int turn =playPigGame(scanner);
+	            System.out.println("You finished in " + turn + " turn!");
+	            System.out.println("Game over!");
+	            System.out.println();
+	            System.out.println("Do you want to play again? (yes/no):");
+	            wantToPlay = scanner.next().toLowerCase();
+	        }
+	        //scanner.close();
+	    }
+
+	    public static int playPigGame(Scanner scanner) {
+	    	  score = 0;
+	          turn = 1;
+	          turnWiseScore=0;
+	          
+	          System.out.println("Turn " + turn);
+
+	          while (score + turnWiseScore < 20) {
+	              char option = getRollOrHoldInput(scanner);
+
+	              if (option == 'r') {
+	                  handleOptionR();
+	                  continue;
+	              }
+
+	              if (option == 'h') {
+	                  handleOptionH(turnWiseScore);
+	                  turn++;
+	                  System.out.println("Turn " + turn);
+	                  continue;
+	              }
+
+	              System.out.println("Invalid input. Please try again.");
+	          }
+
+	          System.out.println("Total Score: " + (turnWiseScore + score));
+	          System.out.println();
+	          return turn;
+	      }
+
+	      public static char getRollOrHoldInput(Scanner scanner) {
+	          System.out.print("Roll or Hold? (r/h): ");
+	          return scanner.next().toLowerCase().charAt(0);
+	      }
+
+	      public static int rollDie() {
+	          Random random = new Random();
+	          return 1 + random.nextInt(6);
+	      }
+
+	      public static void handleOptionR() {
+	          int number = rollDie();
+	          if (number > 1) {
+	              System.out.println("Die: " + number);
+	              addToTurnWiseScore(number);
+	          } else {
+	              endTurnWithoutScore();
+	          }
+	      }
+
+	      public static void handleOptionH(int turnWiseScore) {
+	          addToTotalScore(turnWiseScore);
+	          System.out.println("Turn " + turnWiseScore);
+	      }
+
+	      public static void addToTurnWiseScore(int number) {
+	          turnWiseScore += number;
+	      }
+
+	      public static void endTurnWithoutScore() {
+	          score = 0;
+	          turnWiseScore=0;
+	          System.out.println("Turn Over. No score");
+	          System.out.println();
+	          turn++;
+	          System.out.println("Turn " + turn);
+	      }
+
+	      public static void addToTotalScore(int turnWiseScore) {
+	          score += turnWiseScore;
+	          System.out.println("Score for turn: " + turnWiseScore);
+	          turnWiseScore=0;
+	         
+	          System.out.println("Total Score: " + score);
+	          System.out.println();
+	      }
+}
